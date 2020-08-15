@@ -7,7 +7,7 @@ public class WebServerUtils {
 		return !new InetSocketAddress(addr, 80).isUnresolved();
 	}
 	public static boolean checkPort(String port) {
-		return checkIsValidInt(port,65535,0);
+		return checkIsValidInt(port,0,65535);
 	}
 	public static boolean checkThreadPoolSize(String size) {
 		return checkIsValidInt(size,1,1000);//Arbitrarily set to 1000.
