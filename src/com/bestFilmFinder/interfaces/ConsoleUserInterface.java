@@ -1,7 +1,9 @@
 package com.bestFilmFinder.interfaces;
 
-public class ConsoleUserInterface implements UserInterface {
+import java.util.Scanner;
 
+public class ConsoleUserInterface implements UserInterface {
+	public static final Scanner consoleUserInput=new Scanner(System.in);
 	@Override
 	public UserInputString newUserInputString() {
 		return new ConsoleUserInputString();

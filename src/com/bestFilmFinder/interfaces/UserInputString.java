@@ -1,5 +1,5 @@
 package com.bestFilmFinder.interfaces;
 
 public interface UserInputString {
-	public String newUserInput(String message);
+	public String getUserInput(String message);
 }

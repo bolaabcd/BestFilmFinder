@@ -6,6 +6,7 @@ import com.bestFilmFinder.interfaces.ConsoleUserInterface;
 import com.bestFilmFinder.interfaces.UserInputString;
 import com.bestFilmFinder.interfaces.UserInterface;
 import com.bestFilmFinder.utils.FunctionUtils;
+import com.bestFilmFinder.utils.WebUtils;
 
 
 public class Configuration {
@@ -25,23 +26,22 @@ public class Configuration {
 	
 	private InetSocketAddress getAddressFromUser() {
 		UserInputString uis =defaultUserInterface.newUserInputString();
-		String address=uis.newUserInput("Insert the server address.");
+
+		String address=FunctionUtils.retryUltilValid(
+				WebUtils::checkAddress,
+				(userInputString)->userInputString.getUserInput("Insert the server address.")
+				,
+				(userInputString)->userInputString.getUserInput("Insert the server address (previous address invalid).")
+				,
+				uis
+				);
 		int port=Integer.parseInt(
 				FunctionUtils.retryUltilValid(
-						(input)->{
-							try{
-								Integer.parseInt(input);
-							}catch(NumberFormatException e){
-								return false;
-							}
-							return true;
-						},
-						(userInputString)->{
-							return userInputString.newUserInput("Insert the port to listen.");
-						},
-						(userInputString)->{
-							return userInputString.newUserInput("Insert the port to listen. (Integer between 1 and 65000)");
-						},
+						WebUtils::checkPort,
+						(userInputString)->userInputString.getUserInput("WARNING:Any port below 1024 require admin/sudo permission.\nInsert the port to listen.")
+						,
+						(userInputString)->userInputString.getUserInput("WARNING:Any port below 1024 require admin/sudo permission.\nInsert the port to listen. (Integer between 0 and 65535)")
+						,
 						uis
 					)
 				);

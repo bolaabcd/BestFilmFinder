@@ -12,5 +12,6 @@ public class Main {
 		
 		InetSocketAddress sockAddr=padrao.getAddress();
 		HttpServer server = HttpServer.create(sockAddr, 5);
+		
 	}
 }
