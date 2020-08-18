@@ -1,8 +1,14 @@
 package com.bestFilmFinder.utils;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
 
+import com.sun.net.httpserver.HttpExchange;
+
 public class WebServerUtils {
+	private static final byte[] fileNotFoundHTML="<html><body><h1>404 Not Found</h1>Requested File not found</body></html>".getBytes();
+	
 	public static boolean checkAddress(String addr) {
 		return !new InetSocketAddress(addr, 80).isUnresolved();
 	}
@@ -20,5 +26,10 @@ public class WebServerUtils {
 			return false;
 		}
 		return true;
+	}
+	public static void send404NotFound(HttpExchange httpExchange) throws IOException {
+		OutputStream responseBody = httpExchange.getResponseBody();
+		httpExchange.sendResponseHeaders(404, fileNotFoundHTML.length);
+		responseBody.write(fileNotFoundHTML);
 	}
 }

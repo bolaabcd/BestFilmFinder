@@ -13,6 +13,7 @@ import com.bestFilmFinder.sourceWebInterfaces.WikipediaWebsite;
 import com.bestFilmFinder.userInterfaces.ConsoleUserInterface;
 import com.bestFilmFinder.userInterfaces.UserInputString;
 import com.bestFilmFinder.userInterfaces.UserInterface;
+import com.bestFilmFinder.utils.FileUtils;
 import com.bestFilmFinder.utils.FunctionUtils;
 import com.bestFilmFinder.utils.WebServerUtils;
 
@@ -22,12 +23,15 @@ public class Configuration {
 	private InetSocketAddress defaultAddress;//If null, ask the user.
 	private ThreadPoolExecutor defaultThreadPoolExecutor;
 	private List<? extends Website> defaultWebsitesInOrder;
+	private String defaultImagesPath;
 	
 	public Configuration() {//TODO: update to read from file, by default.
 		defaultUserInterface=new ConsoleUserInterface();
 		//defaultAddress=null;
 		//defaultThreadPoolExecutor=null;
+		//defaultImagesPath=null;
 		defaultWebsitesInOrder=getStandardWebsiteList();
+		//Read the file and apply the changes there in the list.
 	}
 	
 	public InetSocketAddress getAddress() {
@@ -40,6 +44,11 @@ public class Configuration {
 			defaultThreadPoolExecutor=getThreadPoolFromUser();
 		return defaultThreadPoolExecutor;
 	}
+	public String getImagesPath() {
+		if(defaultImagesPath==null)
+			defaultImagesPath=getImagesPathFromUser();
+		return defaultImagesPath;
+	}
 	
 	private List<? extends Website> getStandardWebsiteList(){
 		return Arrays.asList(
@@ -49,6 +58,17 @@ public class Configuration {
 				);
 	}
 	
+	private String getImagesPathFromUser() {
+		UserInputString uis =defaultUserInterface.newUserInputString();
+		String path = FunctionUtils.retryUltilValid(
+					FileUtils::checkIfDirectoryExists,
+					(userInputString) -> userInputString.getUserInput("Insert the file path for the server images folder."),
+					(userInputString) -> userInputString.getUserInput("Insert the file path for the server images folder. (Previous path invalid)"),
+					uis
+				);
+		if(path.charAt(path.length()-1)=="/".charAt(0))path=path.substring(0, path.length()-1);
+		return path;
+	}
 	private ThreadPoolExecutor getThreadPoolFromUser() {
 		UserInputString uis =defaultUserInterface.newUserInputString();
 		int poolSize=Integer.parseInt(
