@@ -16,8 +16,8 @@ public class Main {
 		InetSocketAddress sockAddr=padrao.getAddress();
 		HttpServer server = HttpServer.create(sockAddr, 5);
 //		server.createContext("/", new  MyHttpHandler());
-//		server.setExecutor(padrao.getThreadPoolExecutor());
-//		server.start();
+		server.setExecutor(padrao.getThreadPoolExecutor());
+		server.start();
 		System.out.println(formatter.format(new Date())+"Started server!");
 	}
 }

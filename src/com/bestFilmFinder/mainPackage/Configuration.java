@@ -1,12 +1,18 @@
 package com.bestFilmFinder.mainPackage;
 
 import java.net.InetSocketAddress;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
-import com.bestFilmFinder.interfaces.ConsoleUserInterface;
-import com.bestFilmFinder.interfaces.UserInputString;
-import com.bestFilmFinder.interfaces.UserInterface;
+import com.bestFilmFinder.sourceWebInterfaces.IMDBWebsite;
+import com.bestFilmFinder.sourceWebInterfaces.RottenTomatoesWebSite;
+import com.bestFilmFinder.sourceWebInterfaces.Website;
+import com.bestFilmFinder.sourceWebInterfaces.WikipediaWebsite;
+import com.bestFilmFinder.userInterfaces.ConsoleUserInterface;
+import com.bestFilmFinder.userInterfaces.UserInputString;
+import com.bestFilmFinder.userInterfaces.UserInterface;
 import com.bestFilmFinder.utils.FunctionUtils;
 import com.bestFilmFinder.utils.WebServerUtils;
 
@@ -15,11 +21,13 @@ public class Configuration {
 	public UserInterface defaultUserInterface;
 	private InetSocketAddress defaultAddress;//If null, ask the user.
 	private ThreadPoolExecutor defaultThreadPoolExecutor;
+	private List<? extends Website> defaultWebsitesInOrder;
 	
 	public Configuration() {//TODO: update to read from file, by default.
 		defaultUserInterface=new ConsoleUserInterface();
 		//defaultAddress=null;
 		//defaultThreadPoolExecutor=null;
+		defaultWebsitesInOrder=getStandardWebsiteList();
 	}
 	
 	public InetSocketAddress getAddress() {
@@ -31,6 +39,14 @@ public class Configuration {
 		if(defaultThreadPoolExecutor==null)
 			defaultThreadPoolExecutor=getThreadPoolFromUser();
 		return defaultThreadPoolExecutor;
+	}
+	
+	private List<? extends Website> getStandardWebsiteList(){
+		return Arrays.asList(
+				new RottenTomatoesWebSite(),
+				new IMDBWebsite(),
+				new WikipediaWebsite()
+				);
 	}
 	
 	private ThreadPoolExecutor getThreadPoolFromUser() {

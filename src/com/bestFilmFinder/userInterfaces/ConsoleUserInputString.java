@@ -1,4 +1,4 @@
-package com.bestFilmFinder.interfaces;
+package com.bestFilmFinder.userInterfaces;
 
 public class ConsoleUserInputString implements UserInputString {
 
