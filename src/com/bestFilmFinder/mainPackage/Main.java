@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 
 import com.bestFilmFinder.httpHandlers.FileHttpHandler;
+import com.bestFilmFinder.httpHandlers.RedirectHttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 public class Main {
@@ -15,9 +16,9 @@ public class Main {
 		InetSocketAddress sockAddr=padrao.getAddress();
 		HttpServer server = HttpServer.create(sockAddr, 5);
 		server.createContext("/gallery", new  FileHttpHandler(padrao.getImagesPath(),"/gallery"));
-		server.createContext("/CSS", new  FileHttpHandler(padrao.getCSSPath(),"/CSS"));
-		server.createContext("/JS", new  FileHttpHandler(padrao.getJSPath(),"/JS"));
-		
+		server.createContext("/CSS", new FileHttpHandler(padrao.getCSSPath(), "/CSS"));
+		server.createContext("/JS", new FileHttpHandler(padrao.getJSPath(),"/JS"));
+		server.createContext("/favicon.ico",new RedirectHttpHandler("/gallery/WebSiteIcon.ico"));
 		
 		server.setExecutor(padrao.getThreadPoolExecutor());
 		server.start();
