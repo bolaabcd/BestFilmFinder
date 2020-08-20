@@ -12,5 +12,14 @@ public class FunctionUtils {
 		}
 		return answer;
 	}
+	public static boolean checkIsValidInt(String str,int min,int max) {
+		try{
+			int val=Integer.parseInt(str);
+			if(val>max||val<min)return false;
+		}catch(NumberFormatException e){
+			return false;
+		}
+		return true;
+	}
 	
 }

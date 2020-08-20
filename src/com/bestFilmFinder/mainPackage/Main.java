@@ -17,7 +17,8 @@ public class Main {
 		server.createContext("/gallery", new  FileHttpHandler(padrao.getImagesPath(),"/gallery"));
 		server.createContext("/CSS", new  FileHttpHandler(padrao.getCSSPath(),"/CSS"));
 		server.createContext("/JS", new  FileHttpHandler(padrao.getJSPath(),"/JS"));
-
+		
+		
 		server.setExecutor(padrao.getThreadPoolExecutor());
 		server.start();
 		logger.log("Started server!");

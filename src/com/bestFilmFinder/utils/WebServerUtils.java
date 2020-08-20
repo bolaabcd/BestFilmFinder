@@ -13,23 +13,18 @@ public class WebServerUtils {
 		return !new InetSocketAddress(addr, 80).isUnresolved();
 	}
 	public static boolean checkPort(String port) {
-		return checkIsValidInt(port,0,65535);
+		return FunctionUtils.checkIsValidInt(port,0,65535);
 	}
 	public static boolean checkThreadPoolSize(String size) {
-		return checkIsValidInt(size,1,1000);//Arbitrarily set to 1000.
-	}
-	private static boolean checkIsValidInt(String str,int min,int max) {
-		try{
-			int val=Integer.parseInt(str);
-			if(val>max||val<min)return false;
-		}catch(NumberFormatException e){
-			return false;
-		}
-		return true;
+		return FunctionUtils.checkIsValidInt(size,1,1000);//Arbitrarily set to 1000.
 	}
 	public static void send404NotFound(HttpExchange httpExchange) throws IOException {
 		OutputStream responseBody = httpExchange.getResponseBody();
 		httpExchange.sendResponseHeaders(404, fileNotFoundHTML.length);
 		responseBody.write(fileNotFoundHTML);
+	}
+	public static void send302Redirect(HttpExchange httpExchange,String newLocation) throws IOException {
+		httpExchange.getResponseHeaders().add("Location", newLocation);
+		httpExchange.sendResponseHeaders(302, -1);
 	}
 }
