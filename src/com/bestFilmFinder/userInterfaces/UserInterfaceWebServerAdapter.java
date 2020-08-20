@@ -14,12 +14,12 @@ public class UserInterfaceWebServerAdapter {
 		defaultUserInterface=ui;
 	}
 	
-	public String getImagesPathFromUser() {
+	public String getPathFromUser(String pathForWhat) {
 		UserInputString uis =defaultUserInterface.newUserInputString();
 		String path = FunctionUtils.retryUltilValid(
 					FileUtils::checkIfDirectoryExists,
-					(userInputString) -> userInputString.getUserInput("Insert the file path for the server images folder."),
-					(userInputString) -> userInputString.getUserInput("Insert the file path for the server images folder. (Previous path invalid)"),
+					(userInputString) -> userInputString.getUserInput("Insert the file path for the server "+pathForWhat+" folder."),
+					(userInputString) -> userInputString.getUserInput("Insert the file path for the server "+pathForWhat+" folder. (Previous path invalid)"),
 					uis
 				);
 		if(path.charAt(path.length()-1)=="/".charAt(0))path=path.substring(0, path.length()-1);

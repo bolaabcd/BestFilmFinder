@@ -19,12 +19,14 @@ public class Configuration {
 	private ThreadPoolExecutor defaultThreadPoolExecutor;
 	private List<? extends Website> defaultWebsitesInOrder;
 	private String defaultImagesPath;
+	private String defaultCSSPath;
+	private String defaultJSPath;
 	
 	public Configuration() {//TODO: update to read from file, by default.
 		uiAdapter=new UserInterfaceWebServerAdapter(new ConsoleUserInterface());
-		defaultAddress=null;
-		defaultThreadPoolExecutor=null;
-		defaultImagesPath=null;
+//		defaultAddress=null;
+//		defaultThreadPoolExecutor=null;
+//		defaultImagesPath=null;
 		defaultWebsitesInOrder=getStandardWebsiteList();
 		//Read the file and apply the changes there in the list.
 	}
@@ -41,8 +43,18 @@ public class Configuration {
 	}
 	public String getImagesPath() {
 		if(defaultImagesPath==null)
-			defaultImagesPath=uiAdapter.getImagesPathFromUser();
+			defaultImagesPath=uiAdapter.getPathFromUser("images");
 		return defaultImagesPath;
+	}
+	public String getCSSPath() {
+		if(defaultCSSPath==null)
+			defaultCSSPath=uiAdapter.getPathFromUser("CSS");
+		return defaultCSSPath;
+	}
+	public String getJSPath() {
+		if(defaultJSPath==null)
+			defaultJSPath=uiAdapter.getPathFromUser("JavaScript");
+		return defaultJSPath;
 	}
 	
 	private List<? extends Website> getStandardWebsiteList(){
