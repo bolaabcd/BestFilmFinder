@@ -10,11 +10,13 @@ import com.bestFilmFinder.utils.WebServerUtils;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-public class ImageHttpHandler implements HttpHandler {
-	private final String defaultImagesPath;
+public class FileHttpHandler implements HttpHandler {
+	private final String defaultFilesPath;
+	private final String httpRootURIContext;
 	
-	public ImageHttpHandler(String defaultImagesPath) {
-		this.defaultImagesPath=defaultImagesPath;
+	public FileHttpHandler(String defaultFilesPath,String httpRootURIContext) {
+		this.defaultFilesPath=defaultFilesPath;
+		this.httpRootURIContext=httpRootURIContext;
 	}
 	@Override
 	public void handle(HttpExchange httpExchange) throws IOException {
@@ -28,7 +30,7 @@ public class ImageHttpHandler implements HttpHandler {
 		}
 	}
 	private String getGETParams(HttpExchange httpExchange) {
-		return httpExchange.getRequestURI().getPath().replaceFirst("/gallery", defaultImagesPath);
+		return httpExchange.getRequestURI().getPath().replaceFirst(httpRootURIContext, defaultFilesPath);
 	}
 	private void handleResponse(HttpExchange httpExchange, String requestParams) throws IOException {
 		OutputStream responseBody = httpExchange.getResponseBody();
@@ -40,10 +42,10 @@ public class ImageHttpHandler implements HttpHandler {
 		}
 		else {
 			InputStream iStream=new FileInputStream(img);
-			byte[] imgBytes=iStream.readAllBytes();
+			byte[] fileBytes=iStream.readAllBytes();
 			iStream.close();
-			httpExchange.sendResponseHeaders(200, imgBytes.length);
-			responseBody.write(imgBytes);
+			httpExchange.sendResponseHeaders(200, fileBytes.length);
+			responseBody.write(fileBytes);
 			responseBody.flush();
 			httpExchange.close();
 		}

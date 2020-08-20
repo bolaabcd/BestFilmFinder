@@ -3,7 +3,7 @@ package com.bestFilmFinder.mainPackage;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-import com.bestFilmFinder.httpHandlers.ImageHttpHandler;
+import com.bestFilmFinder.httpHandlers.FileHttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 public class Main {
@@ -14,7 +14,7 @@ public class Main {
 		
 		InetSocketAddress sockAddr=padrao.getAddress();
 		HttpServer server = HttpServer.create(sockAddr, 5);
-		server.createContext("/gallery", new  ImageHttpHandler(padrao.getImagesPath()));
+		server.createContext("/gallery", new  FileHttpHandler(padrao.getImagesPath(),"/gallery"));
 		server.setExecutor(padrao.getThreadPoolExecutor());
 		server.start();
 		logger.log("Started server!");
