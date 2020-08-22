@@ -8,5 +8,8 @@ public class ConsoleUserInterface implements UserInterface {
 	public UserInputString newUserInputString() {
 		return new ConsoleUserInputString();
 	}
-
+	@Override
+	public FormTextInput newFormTextInput(FormTextField formTextField) {
+		return new ConsoleFormTextInput(formTextField);
+	}
 }
