@@ -22,4 +22,17 @@ public class ConsoleFormTextInput extends FormTextInput {
 				userInputString);
 	}
 
+	@Override
+	public String getUserInput(String strFormatterArgument) {
+		return FunctionUtils.retryUltilValid(
+				super.formTextField.getValidator(), 
+				(userInputString)->userInputString.getUserInput(
+						super.formTextField.getMessage(strFormatterArgument)
+						), 
+				(userInputString)->userInputString.getUserInput(
+						super.formTextField.getMessageIfInvalid(strFormatterArgument)
+						), 
+				userInputString);
+	}
+
 }

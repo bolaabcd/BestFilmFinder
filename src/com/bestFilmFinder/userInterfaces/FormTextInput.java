@@ -6,4 +6,5 @@ public abstract class FormTextInput {
 		this.formTextField=formTextField;
 	}
 	public abstract String getUserInput();
+	public abstract String getUserInput(String strFormatterArgument);
 }

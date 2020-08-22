@@ -29,7 +29,7 @@ public class Configuration {
 //		defaultImagesPath=null;
 		defaultWebsitesInOrder=getStandardWebsiteList();
 		//Read the file and apply the changes there in the list.
-	}
+		}
 	
 	public InetSocketAddress getAddress() {
 		if(defaultAddress==null) 
