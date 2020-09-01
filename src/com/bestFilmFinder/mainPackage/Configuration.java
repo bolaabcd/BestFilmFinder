@@ -21,6 +21,8 @@ public class Configuration {
 	private String defaultImagesPath;
 	private String defaultCSSPath;
 	private String defaultJSPath;
+	private String defaultHTMLTemplatePath;
+
 	
 	public Configuration() {//TODO: update to read from file, by default.
 		uiAdapter=new UserInterfaceWebServerAdapter(new ConsoleUserInterface());
@@ -55,6 +57,12 @@ public class Configuration {
 		if(defaultJSPath==null)
 			defaultJSPath=uiAdapter.getPathFromUser("JavaScript");
 		return defaultJSPath;
+	}
+	
+	public String getHTMLPath() {
+		if(defaultHTMLTemplatePath==null)
+			defaultHTMLTemplatePath=uiAdapter.getPathFromUser("HTML_Template");
+		return defaultHTMLTemplatePath;
 	}
 	
 	private List<? extends Website> getStandardWebsiteList(){

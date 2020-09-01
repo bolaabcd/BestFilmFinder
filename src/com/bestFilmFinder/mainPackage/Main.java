@@ -15,10 +15,13 @@ public class Main {
 		
 		InetSocketAddress sockAddr=padrao.getAddress();
 		HttpServer server = HttpServer.create(sockAddr, 5);
+
 		server.createContext("/gallery", new  FileHttpHandler(padrao.getImagesPath(),"/gallery"));
 		server.createContext("/CSS", new FileHttpHandler(padrao.getCSSPath(), "/CSS"));
 		server.createContext("/JS", new FileHttpHandler(padrao.getJSPath(),"/JS"));
 		server.createContext("/favicon.ico",new RedirectHttpHandler("/gallery/WebSiteIcon.ico"));
+		server.createContext("/",new RedirectHttpHandler("/index.html"));
+		
 		
 		server.setExecutor(padrao.getThreadPoolExecutor());
 		server.start();
