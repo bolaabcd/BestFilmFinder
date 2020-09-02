@@ -48,7 +48,20 @@ public abstract class FileHTTPHandler implements HttpHandler{
 		return new JSONObject(body);
 	}
 
-	protected abstract JSONObject getGETParams(HttpExchange httpExchange);
+	protected JSONObject getGETParams(HttpExchange httpExchange) {
+		String query=httpExchange.getRequestURI().getQuery();
+		JSONObject result = new JSONObject();
+	    for (String param : query.split("&")) {
+	        String[] entry = param.split("=");
+	        if (entry.length > 1) {
+	            result.put(entry[0], entry[1]);
+	        }else{
+	            result.put(entry[0], "");
+	        }
+	    }
 
+	    return result;
+	}
+	
 	protected abstract void handleResponse(HttpExchange httpExchange, JSONObject requestParams) throws IOException;
 }

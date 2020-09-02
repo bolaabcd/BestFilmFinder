@@ -28,11 +28,7 @@ public class DynamicFileHTTPHandler extends FileHTTPHandler{
 	public static void setDirectoryForTemplateLoading(File directory) throws IOException {
 		freemarkerConfig.setDirectoryForTemplateLoading(directory);
 	}
-	@Override
-	protected JSONObject getGETParams(HttpExchange httpExchange) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	protected void handleResponse(HttpExchange httpExchange, JSONObject requestParams) throws IOException {

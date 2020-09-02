@@ -1,10 +1,12 @@
 package com.bestFilmFinder.mainPackage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-import com.bestFilmFinder.httpHandlers.StaticFileHttpHandler;
+import com.bestFilmFinder.httpHandlers.DynamicFileHTTPHandler;
 import com.bestFilmFinder.httpHandlers.RedirectHttpHandler;
+import com.bestFilmFinder.httpHandlers.StaticFileHttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 public class Main {
@@ -12,6 +14,8 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException {
 		ServerConfiguration padrao= new ServerConfiguration();
+		
+		DynamicFileHTTPHandler.setDirectoryForTemplateLoading(new File(padrao.getHTMLPath()));
 		
 		InetSocketAddress sockAddr=padrao.getAddress();
 		HttpServer server = HttpServer.create(sockAddr, 5);
