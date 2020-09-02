@@ -22,9 +22,11 @@ public class WebServerUtils {
 		OutputStream responseBody = httpExchange.getResponseBody();
 		httpExchange.sendResponseHeaders(404, fileNotFoundHTML.length);
 		responseBody.write(fileNotFoundHTML);
+		httpExchange.close();
 	}
 	public static void send302Redirect(HttpExchange httpExchange,String newLocation) throws IOException {
 		httpExchange.getResponseHeaders().add("Location", newLocation);
 		httpExchange.sendResponseHeaders(302, -1);
+		httpExchange.close();
 	}
 }

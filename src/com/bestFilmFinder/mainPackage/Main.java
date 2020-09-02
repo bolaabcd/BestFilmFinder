@@ -3,7 +3,7 @@ package com.bestFilmFinder.mainPackage;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-import com.bestFilmFinder.httpHandlers.FileHttpHandler;
+import com.bestFilmFinder.httpHandlers.StaticFileHttpHandler;
 import com.bestFilmFinder.httpHandlers.RedirectHttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
@@ -16,9 +16,9 @@ public class Main {
 		InetSocketAddress sockAddr=padrao.getAddress();
 		HttpServer server = HttpServer.create(sockAddr, 5);
 
-		server.createContext("/gallery", new  FileHttpHandler(padrao.getImagesPath(),"/gallery"));
-		server.createContext("/CSS", new FileHttpHandler(padrao.getCSSPath(), "/CSS"));
-		server.createContext("/JS", new FileHttpHandler(padrao.getJSPath(),"/JS"));
+		server.createContext("/gallery", new  StaticFileHttpHandler(padrao.getImagesPath(),"/gallery"));
+		server.createContext("/CSS", new StaticFileHttpHandler(padrao.getCSSPath(), "/CSS"));
+		server.createContext("/JS", new StaticFileHttpHandler(padrao.getJSPath(),"/JS"));
 		server.createContext("/favicon.ico",new RedirectHttpHandler("/gallery/WebSiteIcon.ico"));
 		server.createContext("/",new RedirectHttpHandler("/index.html"));
 		

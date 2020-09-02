@@ -5,40 +5,44 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.JSONObject;
 
 import com.bestFilmFinder.utils.WebServerUtils;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
-public class FileHttpHandler implements HttpHandler {
+public class StaticFileHttpHandler extends FileHTTPHandler {
 	private final String defaultFilesPath;
 	private final String httpRootURIContext;
 	
-	public FileHttpHandler(String defaultFilesPath,String httpRootURIContext) {
+	public StaticFileHttpHandler(String defaultFilesPath,String httpRootURIContext) {
 		this.defaultFilesPath=defaultFilesPath;
 		this.httpRootURIContext=httpRootURIContext;
+		
 	}
 	@Override
-	public void handle(HttpExchange httpExchange) throws IOException {
-		String requestParams= null;
-		if ("GET".equals(httpExchange.getRequestMethod())) {
-			requestParams = getGETParams(httpExchange);
-			handleResponse(httpExchange, requestParams);
-		} else {
-			WebServerUtils.send404NotFound(httpExchange);
-			httpExchange.close();
-		}
+	protected JSONObject getGETParams(HttpExchange httpExchange) {
+		String filePath=httpExchange.getRequestURI().getPath().replaceFirst(httpRootURIContext, defaultFilesPath);
+		Map<String,String> ans=new HashMap<String,String>();
+		ans.put("filePath", filePath);
+		return 	new JSONObject(ans);
 	}
-	private String getGETParams(HttpExchange httpExchange) {
-		return httpExchange.getRequestURI().getPath().replaceFirst(httpRootURIContext, defaultFilesPath);
+	@Override
+	protected JSONObject getPOSTParams(HttpExchange httpExchange){
+		JSONObject ans=super.getPOSTParams(httpExchange);
+		String newPath=defaultFilesPath+"/"+((String )ans.get("filePath"));
+		ans.put("filePath", newPath.replaceAll("\\.\\./", ""));
+		return ans;
 	}
-	private void handleResponse(HttpExchange httpExchange, String requestParams) throws IOException {
+	@Override
+	protected void handleResponse(HttpExchange httpExchange, JSONObject requestParams) throws IOException {
 		OutputStream responseBody = httpExchange.getResponseBody();
 		
-		File img = new File(requestParams);
+		File img = new File((String)requestParams.get("filePath"));
 		if (!img.exists() || img.isDirectory()) {
 			WebServerUtils.send404NotFound(httpExchange);
-			httpExchange.close();
 		}
 		else {
 			InputStream iStream=new FileInputStream(img);
