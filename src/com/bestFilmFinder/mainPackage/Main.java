@@ -11,7 +11,7 @@ public class Main {
 	public static final SimpleLogger logger = new SimpleLogger(System.out);
 	
 	public static void main(String[] args) throws IOException {
-		Configuration padrao= new Configuration();
+		ServerConfiguration padrao= new ServerConfiguration();
 		
 		InetSocketAddress sockAddr=padrao.getAddress();
 		HttpServer server = HttpServer.create(sockAddr, 5);

@@ -13,7 +13,7 @@ import com.bestFilmFinder.userInterfaces.ConsoleUserInterface;
 import com.bestFilmFinder.userInterfaces.UserInterfaceWebServerAdapter;
 
 
-public class Configuration {
+public class ServerConfiguration {
 	private final UserInterfaceWebServerAdapter uiAdapter;
 	private InetSocketAddress defaultAddress;//If null, ask the user.
 	private ThreadPoolExecutor defaultThreadPoolExecutor;
@@ -24,7 +24,7 @@ public class Configuration {
 	private String defaultHTMLTemplatePath;
 
 	
-	public Configuration() {//TODO: update to read from file, by default.
+	public ServerConfiguration() {//TODO: update to read from file, by default.
 		uiAdapter=new UserInterfaceWebServerAdapter(new ConsoleUserInterface());
 //		defaultAddress=null;
 //		defaultThreadPoolExecutor=null;
