@@ -1,5 +1,6 @@
 package com.bestFilmFinder.mainPackage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
@@ -12,8 +13,11 @@ public class Main {
 	public static final SimpleLogger logger = new SimpleLogger(System.out);
 	
 	public static void main(String[] args) throws IOException {
-		ServerConfiguration padrao= new ServerConfiguration();
-		
+		ServerConfiguration padrao;
+		if(args.length==0)//TODO: change this to automatically create configuration file.
+			padrao= new ServerConfiguration();
+		else 
+			padrao= new ServerConfiguration(new File(args[0]).toPath());
 		DynamicFileHTTPHandler.setDirectoryForTemplateLoading(padrao.getHTMLDirectory());
 		
 		InetSocketAddress sockAddr=padrao.getAddress();

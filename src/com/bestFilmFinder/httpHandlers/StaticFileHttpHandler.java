@@ -22,7 +22,7 @@ public StaticFileHttpHandler(File defaultDirectory, String httpRootURIContext) {
 	protected void handleResponse(HttpExchange httpExchange, JSONObject requestParams) throws IOException {
 		OutputStream responseBody = httpExchange.getResponseBody();
 		
-		File img = new File((String)requestParams.get(JSONParams.FilePath));
+		File img = new File((String)requestParams.get(JSONParams.filePath));
 		if (!img.exists() || img.isDirectory()) {
 			WebServerUtils.send404NotFound(httpExchange);
 		}

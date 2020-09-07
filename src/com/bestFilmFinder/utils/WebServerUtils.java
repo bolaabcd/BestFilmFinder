@@ -3,6 +3,8 @@ package com.bestFilmFinder.utils;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import com.sun.net.httpserver.HttpExchange;
 
@@ -17,6 +19,13 @@ public class WebServerUtils {
 	}
 	public static boolean checkThreadPoolSize(String size) {
 		return FunctionUtils.checkIsValidInt(size,1,1000);//Arbitrarily set to 1000.
+	}
+	public static InetSocketAddress getCompleteAddress(String address,String port) {
+		return new InetSocketAddress(address, Integer.parseInt(port));
+	}
+	public static ThreadPoolExecutor getThreadPoolExecutor(String size) {
+		int poolSize=Integer.parseInt(size);
+		return (ThreadPoolExecutor) Executors.newFixedThreadPool(poolSize);
 	}
 	public static void send404NotFound(HttpExchange httpExchange) throws IOException {
 		OutputStream responseBody = httpExchange.getResponseBody();

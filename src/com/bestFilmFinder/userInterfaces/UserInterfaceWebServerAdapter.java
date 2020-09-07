@@ -2,7 +2,6 @@ package com.bestFilmFinder.userInterfaces;
 
 import java.io.File;
 import java.net.InetSocketAddress;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import com.bestFilmFinder.utils.FileUtils;
@@ -38,19 +37,18 @@ public class UserInterfaceWebServerAdapter {
 	public File getDirectoryFromUser(String DirectoryForWhat) {
 		FormTextInput fti=defaultUserInterface.newFormTextInput(directoryPath);
 		String path=fti.getUserInput(DirectoryForWhat);
-		if(path.charAt(path.length()-1)=="/".charAt(0))path=path.substring(0, path.length()-1);
+		//if(path.charAt(path.length()-1)=="/".charAt(0))path=path.substring(0, path.length()-1);
 		return new File(path);
 	}
 	public ThreadPoolExecutor getThreadPoolFromUser() {
 		FormTextInput fti=defaultUserInterface.newFormTextInput(threadPoolSize);
-		int poolSize=Integer.parseInt(fti.getUserInput());
-		return (ThreadPoolExecutor) Executors.newFixedThreadPool(poolSize);
+		return WebServerUtils.getThreadPoolExecutor(fti.getUserInput());
 	}
 	public InetSocketAddress getAddressFromUser() {
 		FormTextInput ftiAddress=defaultUserInterface.newFormTextInput(serverAddress);
 		String address=ftiAddress.getUserInput();
 		FormTextInput ftiPort=defaultUserInterface.newFormTextInput(serverPort);
-		int port=Integer.parseInt(ftiPort.getUserInput());
-		return new InetSocketAddress(address, port);
+		String port=ftiPort.getUserInput();
+		return WebServerUtils.getCompleteAddress(address, port);
 	}
 }

@@ -56,7 +56,7 @@ public abstract class FileHTTPHandler implements HttpHandler{
 		JSONObject result=new JSONObject(body);
 		String URIPath=httpExchange.getRequestURI().getPath();	
 		result.put(JSONParams.URIPath, URIPath);
-		result.put(JSONParams.FilePath, URIPath.replaceFirst(httpRootURIContext, defaultDirectory.getAbsolutePath()));
+		result.put(JSONParams.filePath, URIPath.replaceFirst(httpRootURIContext, defaultDirectory.getAbsolutePath()));
 		return result;
 	}
 
@@ -74,7 +74,7 @@ public abstract class FileHTTPHandler implements HttpHandler{
 			}
 		String URIPath=httpExchange.getRequestURI().getPath();	
 		result.put(JSONParams.URIPath, URIPath);
-		result.put(JSONParams.FilePath, URIPath.replaceFirst(httpRootURIContext, defaultDirectory.getAbsolutePath()));
+		result.put(JSONParams.filePath, URIPath.replaceFirst(httpRootURIContext, defaultDirectory.getAbsolutePath()));
 	    return result;
 	}
 	
