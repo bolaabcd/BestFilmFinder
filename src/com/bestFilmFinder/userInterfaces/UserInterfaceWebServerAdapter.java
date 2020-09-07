@@ -1,5 +1,6 @@
 package com.bestFilmFinder.userInterfaces;
 
+import java.io.File;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -23,7 +24,7 @@ public class UserInterfaceWebServerAdapter {
 			"WARNING:Any port below 1024 require admin/sudo permission.\nInsert the port to listen. (Integer between 0 and 65535)", 
 			WebServerUtils::checkAddress
 			);
-	public static final FormTextField filePath=new FormTextField(
+	public static final FormTextField directoryPath=new FormTextField(
 			"Insert the file path for the server %s folder.", 
 			"Insert the file path for the server %s folder. (Previous path invalid)", 
 			FileUtils::checkIfDirectoryExists);
@@ -34,11 +35,11 @@ public class UserInterfaceWebServerAdapter {
 		
 	}
 	
-	public String getPathFromUser(String pathForWhat) {
-		FormTextInput fti=defaultUserInterface.newFormTextInput(filePath);
-		String path=fti.getUserInput(pathForWhat);
+	public File getDirectoryFromUser(String DirectoryForWhat) {
+		FormTextInput fti=defaultUserInterface.newFormTextInput(directoryPath);
+		String path=fti.getUserInput(DirectoryForWhat);
 		if(path.charAt(path.length()-1)=="/".charAt(0))path=path.substring(0, path.length()-1);
-		return path;
+		return new File(path);
 	}
 	public ThreadPoolExecutor getThreadPoolFromUser() {
 		FormTextInput fti=defaultUserInterface.newFormTextInput(threadPoolSize);

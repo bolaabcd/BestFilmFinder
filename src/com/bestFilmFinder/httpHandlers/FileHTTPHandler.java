@@ -1,6 +1,7 @@
 package com.bestFilmFinder.httpHandlers;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
@@ -13,11 +14,11 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 public abstract class FileHTTPHandler implements HttpHandler{
-	private final String defaultFilesPath;
+	private final File defaultDirectory;
 	private final String httpRootURIContext;
 	
-	public FileHTTPHandler(String defaultFilesPath,String httpRootURIContext) {
-		this.defaultFilesPath=defaultFilesPath;
+	public FileHTTPHandler(File defaultDirectory,String httpRootURIContext) {
+		this.defaultDirectory=defaultDirectory;
 		this.httpRootURIContext=httpRootURIContext;
 		
 	}
@@ -55,7 +56,7 @@ public abstract class FileHTTPHandler implements HttpHandler{
 		JSONObject result=new JSONObject(body);
 		String URIPath=httpExchange.getRequestURI().getPath();	
 		result.put(JSONParams.URIPath, URIPath);
-		result.put(JSONParams.FilePath, URIPath.replaceFirst(httpRootURIContext, defaultFilesPath));
+		result.put(JSONParams.FilePath, URIPath.replaceFirst(httpRootURIContext, defaultDirectory.getAbsolutePath()));
 		return result;
 	}
 
@@ -73,7 +74,7 @@ public abstract class FileHTTPHandler implements HttpHandler{
 			}
 		String URIPath=httpExchange.getRequestURI().getPath();	
 		result.put(JSONParams.URIPath, URIPath);
-		result.put(JSONParams.FilePath, URIPath.replaceFirst(httpRootURIContext, defaultFilesPath));
+		result.put(JSONParams.FilePath, URIPath.replaceFirst(httpRootURIContext, defaultDirectory.getAbsolutePath()));
 	    return result;
 	}
 	

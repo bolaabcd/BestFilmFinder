@@ -1,6 +1,5 @@
 package com.bestFilmFinder.mainPackage;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
@@ -15,14 +14,14 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		ServerConfiguration padrao= new ServerConfiguration();
 		
-		DynamicFileHTTPHandler.setDirectoryForTemplateLoading(new File(padrao.getHTMLPath()));
+		DynamicFileHTTPHandler.setDirectoryForTemplateLoading(padrao.getHTMLDirectory());
 		
 		InetSocketAddress sockAddr=padrao.getAddress();
 		HttpServer server = HttpServer.create(sockAddr, 5);
 
-		server.createContext("/gallery", new  StaticFileHttpHandler(padrao.getImagesPath(),"/gallery"));
-		server.createContext("/CSS", new StaticFileHttpHandler(padrao.getCSSPath(), "/CSS"));
-		server.createContext("/JS", new StaticFileHttpHandler(padrao.getJSPath(),"/JS"));
+		server.createContext("/gallery", new  StaticFileHttpHandler(padrao.getImagesDirectory(),"/gallery"));
+		server.createContext("/CSS", new StaticFileHttpHandler(padrao.getCSSDirectory(), "/CSS"));
+		server.createContext("/JS", new StaticFileHttpHandler(padrao.getJSDirectory(),"/JS"));
 		server.createContext("/favicon.ico",new RedirectHttpHandler("/gallery/WebSiteIcon.ico"));
 		server.createContext("/",new RedirectHttpHandler("/index.html"));
 		

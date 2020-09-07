@@ -14,8 +14,8 @@ import com.sun.net.httpserver.HttpExchange;
 public class StaticFileHttpHandler extends FileHTTPHandler {
 	
 
-public StaticFileHttpHandler(String defaultFilesPath, String httpRootURIContext) {
-		super(defaultFilesPath, httpRootURIContext);
+public StaticFileHttpHandler(File defaultDirectory, String httpRootURIContext) {
+		super(defaultDirectory, httpRootURIContext);
 	}
 
 	@Override

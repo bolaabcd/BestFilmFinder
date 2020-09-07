@@ -29,8 +29,8 @@ public class DynamicFileHTTPHandler extends FileHTTPHandler{
 		freemarkerConfig.setDirectoryForTemplateLoading(directory);
 	}
 
-	public DynamicFileHTTPHandler(String defaultFilesPath, String httpRootURIContext) {
-		super(defaultFilesPath, httpRootURIContext);
+	public DynamicFileHTTPHandler(File defaultDirectory, String httpRootURIContext) {
+		super(defaultDirectory, httpRootURIContext);
 	}
 
 	@Override

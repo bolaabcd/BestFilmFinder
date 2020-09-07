@@ -1,5 +1,6 @@
 package com.bestFilmFinder.mainPackage;
 
+import java.io.File;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
 import java.util.List;
@@ -18,10 +19,10 @@ public class ServerConfiguration {
 	private InetSocketAddress defaultAddress;//If null, ask the user.
 	private ThreadPoolExecutor defaultThreadPoolExecutor;
 	private List<? extends Website> defaultWebsitesInOrder;
-	private String defaultImagesPath;
-	private String defaultCSSPath;
-	private String defaultJSPath;
-	private String defaultHTMLTemplatePath;
+	private File defaultImagesDirectory;
+	private File defaultCSSDirectory;
+	private File defaultJSDirectory;
+	private File defaultHTMLTemplateDirectory;
 
 	
 	public ServerConfiguration() {//TODO: update to read from file, by default.
@@ -43,26 +44,26 @@ public class ServerConfiguration {
 			defaultThreadPoolExecutor=uiAdapter.getThreadPoolFromUser();
 		return defaultThreadPoolExecutor;
 	}
-	public String getImagesPath() {
-		if(defaultImagesPath==null)
-			defaultImagesPath=uiAdapter.getPathFromUser("images");
-		return defaultImagesPath;
+	public File getImagesDirectory() {
+		if(defaultImagesDirectory==null)
+			defaultImagesDirectory=uiAdapter.getDirectoryFromUser("images");
+		return defaultImagesDirectory;
 	}
-	public String getCSSPath() {
-		if(defaultCSSPath==null)
-			defaultCSSPath=uiAdapter.getPathFromUser("CSS");
-		return defaultCSSPath;
+	public File getCSSDirectory() {
+		if(defaultCSSDirectory==null)
+			defaultCSSDirectory=uiAdapter.getDirectoryFromUser("CSS");
+		return defaultCSSDirectory;
 	}
-	public String getJSPath() {
-		if(defaultJSPath==null)
-			defaultJSPath=uiAdapter.getPathFromUser("JavaScript");
-		return defaultJSPath;
+	public File getJSDirectory() {
+		if(defaultJSDirectory==null)
+			defaultJSDirectory=uiAdapter.getDirectoryFromUser("JavaScript");
+		return defaultJSDirectory;
 	}
 	
-	public String getHTMLPath() {
-		if(defaultHTMLTemplatePath==null)
-			defaultHTMLTemplatePath=uiAdapter.getPathFromUser("HTML_Template");
-		return defaultHTMLTemplatePath;
+	public File getHTMLDirectory() {
+		if(defaultHTMLTemplateDirectory==null)
+			defaultHTMLTemplateDirectory=uiAdapter.getDirectoryFromUser("HTML_Template");
+		return defaultHTMLTemplateDirectory;
 	}
 	
 	private List<? extends Website> getStandardWebsiteList(){
