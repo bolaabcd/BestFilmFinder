@@ -13,7 +13,14 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 public abstract class FileHTTPHandler implements HttpHandler{
-
+	private final String defaultFilesPath;
+	private final String httpRootURIContext;
+	
+	public FileHTTPHandler(String defaultFilesPath,String httpRootURIContext) {
+		this.defaultFilesPath=defaultFilesPath;
+		this.httpRootURIContext=httpRootURIContext;
+		
+	}
 	@Override
 	public void handle(HttpExchange httpExchange) throws IOException {
 		try {
@@ -45,21 +52,28 @@ public abstract class FileHTTPHandler implements HttpHandler{
 						)
 				);
 		String body=br.lines().collect(Collectors.joining("\n"));
-		return new JSONObject(body);
+		JSONObject result=new JSONObject(body);
+		String URIPath=httpExchange.getRequestURI().getPath();	
+		result.put(JSONParams.URIPath, URIPath);
+		result.put(JSONParams.FilePath, URIPath.replaceFirst(httpRootURIContext, defaultFilesPath));
+		return result;
 	}
 
 	protected JSONObject getGETParams(HttpExchange httpExchange) {
 		String query=httpExchange.getRequestURI().getQuery();
 		JSONObject result = new JSONObject();
-	    for (String param : query.split("&")) {
-	        String[] entry = param.split("=");
-	        if (entry.length > 1) {
-	            result.put(entry[0], entry[1]);
-	        }else{
-	            result.put(entry[0], "");
-	        }
-	    }
-
+		if (query != null)
+			for (String param : query.split("&")) {
+				String[] entry = param.split("=");
+				if (entry.length > 1) {
+					result.put(entry[0], entry[1]);
+				} else {
+					result.put(entry[0], "");
+				}
+			}
+		String URIPath=httpExchange.getRequestURI().getPath();	
+		result.put(JSONParams.URIPath, URIPath);
+		result.put(JSONParams.FilePath, URIPath.replaceFirst(httpRootURIContext, defaultFilesPath));
 	    return result;
 	}
 	

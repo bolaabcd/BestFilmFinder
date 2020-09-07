@@ -29,6 +29,9 @@ public class DynamicFileHTTPHandler extends FileHTTPHandler{
 		freemarkerConfig.setDirectoryForTemplateLoading(directory);
 	}
 
+	public DynamicFileHTTPHandler(String defaultFilesPath, String httpRootURIContext) {
+		super(defaultFilesPath, httpRootURIContext);
+	}
 
 	@Override
 	protected void handleResponse(HttpExchange httpExchange, JSONObject requestParams) throws IOException {
