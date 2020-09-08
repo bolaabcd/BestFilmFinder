@@ -14,10 +14,6 @@ import org.json.JSONObject;
 import org.json.XML;
 
 import com.bestFilmFinder.httpHandlers.JSONParams;
-import com.bestFilmFinder.sourceWebInterfaces.IMDBWebsite;
-import com.bestFilmFinder.sourceWebInterfaces.RottenTomatoesWebSite;
-import com.bestFilmFinder.sourceWebInterfaces.Website;
-import com.bestFilmFinder.sourceWebInterfaces.WikipediaWebsite;
 import com.bestFilmFinder.userInterfaces.ConsoleUserInterface;
 import com.bestFilmFinder.userInterfaces.UserInterfaceWebServerAdapter;
 import com.bestFilmFinder.utils.FileUtils;
@@ -28,19 +24,17 @@ public class ServerConfiguration {
 	private final UserInterfaceWebServerAdapter uiAdapter;
 	private InetSocketAddress defaultAddress;//If null, ask the user.
 	private ThreadPoolExecutor defaultThreadPoolExecutor;
-	private List<? extends Website> defaultWebsitesInOrder;
 	private File defaultImagesDirectory;
 	private File defaultCSSDirectory;
 	private File defaultJSDirectory;
 	private File defaultHTMLTemplateDirectory;
 
 	
-	public ServerConfiguration() {//TODO: update to read from file, by default.
+	public ServerConfiguration() {
 		uiAdapter=new UserInterfaceWebServerAdapter(new ConsoleUserInterface());
 //		defaultAddress=null;
 //		defaultThreadPoolExecutor=null;
 //		defaultImagesPath=null;
-		defaultWebsitesInOrder=getStandardWebsiteList();
 		//Read the file and apply the changes there in the list.
 		}
 	public ServerConfiguration(Path configs) {
@@ -125,13 +119,7 @@ public class ServerConfiguration {
 		return defaultHTMLTemplateDirectory;
 	}
 	
-	private List<? extends Website> getStandardWebsiteList(){
-		return Arrays.asList(
-				new RottenTomatoesWebSite(),
-				new IMDBWebsite(),
-				new WikipediaWebsite()
-				);
-	}
+
 	private String getStringFromJSON(JSONObject jsonObject,String parameter) {
 		String ans;
 		try {
