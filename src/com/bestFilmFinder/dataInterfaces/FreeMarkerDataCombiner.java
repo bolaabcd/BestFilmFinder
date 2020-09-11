@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import freemarker.core.ParseException;
 import freemarker.template.Configuration;
@@ -16,7 +18,7 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import freemarker.template.TemplateNotFoundException;
 
-public class FreeMarkerDataCombiner<T> implements DataCombiner<File, Set<T>, InputStream> {
+public class FreeMarkerDataCombiner<T> implements DataCombiner<File, List<T>, InputStream> {
 	protected static final Configuration freemarkerConfig=getDefaultFreemarkerConfig();
 	
 	private static final Configuration getDefaultFreemarkerConfig() {
@@ -35,12 +37,14 @@ public class FreeMarkerDataCombiner<T> implements DataCombiner<File, Set<T>, Inp
 	}
 
 	@Override
-	public InputStream combineData(File firstElement, Set<T> secondElement) {
+	public InputStream combineData(File firstElement, List<T> secondElement) {
 		String fileName=firstElement.getName();
+		Map<String,List<T>> results=new HashMap<String, List<T>>();
+		results.put("first", secondElement);
 		try {
 			Template template=freemarkerConfig.getTemplate(fileName);
 			Writer writer = new StringWriter();
-			template.process(secondElement,writer);
+			template.process(results,writer);
 			InputStream ans=new ByteArrayInputStream(writer.toString().getBytes(freemarkerConfig.getDefaultEncoding()));
 			return ans;
 		} catch (TemplateNotFoundException e) {
