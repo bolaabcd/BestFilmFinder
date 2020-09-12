@@ -27,6 +27,10 @@ public class UserInterfaceWebServerAdapter {
 			"Insert the file path for the server %s folder.", 
 			"Insert the file path for the server %s folder. (Previous path invalid)", 
 			FileUtils::checkIfDirectoryExists);
+	private static final FormTextField APIKey=new FormTextField(
+			"Insert the key for the %s API.", 
+			"Insert the key for the %s API. (Previous key invalid)", 
+			(parameter)->true);//TODO:make it possible to validate API keys
 	
 	private final UserInterface defaultUserInterface;
 	public UserInterfaceWebServerAdapter(UserInterface ui) {
@@ -50,5 +54,9 @@ public class UserInterfaceWebServerAdapter {
 		FormTextInput ftiPort=defaultUserInterface.newFormTextInput(serverPort);
 		String port=ftiPort.getUserInput();
 		return WebServerUtils.getCompleteAddress(address, port);
+	}
+	public String getAPIKeyFromUser(String APIName) {
+		FormTextInput fti=defaultUserInterface.newFormTextInput(APIKey);
+		return fti.getUserInput(APIName);
 	}
 }

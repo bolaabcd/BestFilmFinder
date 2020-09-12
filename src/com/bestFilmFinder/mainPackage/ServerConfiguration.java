@@ -5,8 +5,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import org.json.JSONException;
@@ -28,15 +27,15 @@ public class ServerConfiguration {
 	private File defaultCSSDirectory;
 	private File defaultJSDirectory;
 	private File defaultHTMLTemplateDirectory;
-
+	private Map<String,String> APIKeys;
 	
 	public ServerConfiguration() {
 		uiAdapter=new UserInterfaceWebServerAdapter(new ConsoleUserInterface());
 //		defaultAddress=null;
 //		defaultThreadPoolExecutor=null;
 //		defaultImagesPath=null;
-		//Read the file and apply the changes there in the list.
 		}
+	@SuppressWarnings("unchecked")
 	public ServerConfiguration(Path configs) {
 		this();
 		try {
@@ -56,6 +55,7 @@ public class ServerConfiguration {
 			String imagesDirectory=getStringFromJSON(jsonConfigFile,JSONParams.imagesDirectory);
 			String JSDirectory=getStringFromJSON(jsonConfigFile,JSONParams.JSDirectory);
 			String threadPoolExecutorSize=getStringFromJSON(jsonConfigFile,JSONParams.threadPoolExecutorSize);
+			JSONObject APIKeys=getJSONObjectFromJSON(jsonConfigFile,JSONParams.APIKeys);
 			if(serverAddress!=null&&serverPort!=null)
 				if(WebServerUtils.checkAddress(serverAddress)&&WebServerUtils.checkPort(serverPort))
 					this.defaultAddress=WebServerUtils.getCompleteAddress(serverAddress, serverPort);
@@ -74,7 +74,9 @@ public class ServerConfiguration {
 			if(threadPoolExecutorSize!=null)
 				if(WebServerUtils.checkThreadPoolSize(threadPoolExecutorSize))
 					this.defaultThreadPoolExecutor=WebServerUtils.getThreadPoolExecutor(threadPoolExecutorSize);
-			
+			if(APIKeys!=null)
+				if(canCastToMapOfStrings(APIKeys))
+					this.APIKeys=(Map<String,String>)(Object)APIKeys.toMap();
 		} catch (IOException e) {
 			System.out.println("An error ocurred while oppening the configuration file:");
 			e.printStackTrace();
@@ -119,6 +121,13 @@ public class ServerConfiguration {
 		return defaultHTMLTemplateDirectory;
 	}
 	
+	public String getAPIKey(String APIName){
+		String ans=APIKeys.get(APIName);
+		if(ans==null)
+			ans=uiAdapter.getAPIKeyFromUser(APIName);
+		return ans;
+	}
+	
 
 	private String getStringFromJSON(JSONObject jsonObject,String parameter) {
 		String ans;
@@ -129,7 +138,22 @@ public class ServerConfiguration {
 		}
 		return ans;
 	}
-	
+	private JSONObject getJSONObjectFromJSON(JSONObject jsonObject,String parameter) {
+		JSONObject ans;
+		try {
+			ans=jsonObject.getJSONObject(parameter);
+		}catch(JSONException j) {
+			return null;
+		}
+		return ans;
+	}
+	private boolean canCastToMapOfStrings(JSONObject jsonObject){
+		Map<String,Object> map=jsonObject.toMap();
+		for(String k:map.keySet())
+			if(!(map.get(k) instanceof String))
+				return false;
+		return true;
+	}
 	
 
 }
