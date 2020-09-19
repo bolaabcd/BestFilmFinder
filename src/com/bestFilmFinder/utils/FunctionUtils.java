@@ -1,5 +1,7 @@
 package com.bestFilmFinder.utils;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -20,6 +22,19 @@ public class FunctionUtils {
 			return false;
 		}
 		return true;
+	}
+	//TODO: make custom exceptions
+	public static <K,V> Map<K,V> combinedMap(K[] required,Map<K,V> defaults,Map<K,V> values){
+		Map<K,V> ans=new HashMap<K,V>();
+		if(defaults!=null)
+			ans.putAll(defaults);
+		if(values!=null)
+			ans.putAll(values);
+		if(required!=null)
+			for(K key:required)
+				if(!ans.containsKey(key))
+					throw new IllegalArgumentException("The given values don't have all the required parameters.");
+		return ans;
 	}
 	
 }
