@@ -1,11 +1,30 @@
 package com.bestFilmFinder.utils;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class FunctionUtils {
+	public static String encodeURIComponent(String s) {
+	    String result;
+
+	    try {
+	        result = URLEncoder.encode(s, "UTF-8")
+	                .replaceAll("\\+", "%20")
+	                .replaceAll("\\%21", "!")
+	                .replaceAll("\\%27", "'")
+	                .replaceAll("\\%28", "(")
+	                .replaceAll("\\%29", ")")
+	                .replaceAll("\\%7E", "~");
+	    } catch (UnsupportedEncodingException e) {
+	        result = s;
+	    }
+
+	    return result;
+	}
 	public static <T,A> T retryUltilValid(Predicate<T> testValue,Function<A,T> getValue,Function<A,T> alternativeGetValue, A argument) {
 		T answer;
 		answer=getValue.apply(argument);
