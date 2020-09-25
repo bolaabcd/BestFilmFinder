@@ -14,7 +14,8 @@ public final class JSONParams {
 	public static final String JSDirectory="JSDirectory";
 	public static final String HTMLTemplateDirectory="HTMLTemplateDirectory";
 	public static final String APIKeys="APIKeys";
-	public static final String APIKeyIMDB="APIKeyIMDB";
+		//Name of the APIs in the APIKeys map
+		public static final String IMDB_API="IMDB";
 	
 	//Server-WebAPI JSON
 	public static final String URIFilter="URIFilter";
