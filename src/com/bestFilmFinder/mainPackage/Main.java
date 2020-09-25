@@ -13,23 +13,23 @@ public class Main {
 	public static final SimpleLogger logger = new SimpleLogger(System.out);	
 	
 	public static void main(String[] args) throws IOException {
-		ServerConfiguration padrao;
+		ServerConfiguration config;
 		if(args.length==0)//TODO: change this to automatically create configuration file.
-			padrao= new ServerConfiguration();
+			config= new ServerConfiguration();
 		else 
-			padrao= new ServerConfiguration(new File(args[0]).toPath());
-		FreeMarkerDataCombiner.setDirectoryForTemplateLoading(padrao.getHTMLDirectory());
+			config= new ServerConfiguration(new File(args[0]).toPath());
+		FreeMarkerDataCombiner.setDirectoryForTemplateLoading(config.getHTMLDirectory());
 		
-		InetSocketAddress sockAddr=padrao.getAddress();
+		InetSocketAddress sockAddr=config.getAddress();
 		HttpServer server = HttpServer.create(sockAddr, 5);
 
-		server.createContext("/gallery", new  StaticFileHttpHandler(padrao.getImagesDirectory(),"/gallery"));
-		server.createContext("/CSS", new StaticFileHttpHandler(padrao.getCSSDirectory(), "/CSS"));
-		server.createContext("/JS", new StaticFileHttpHandler(padrao.getJSDirectory(),"/JS"));
+		server.createContext("/gallery", new  StaticFileHttpHandler(config.getImagesDirectory(),"/gallery"));
+		server.createContext("/CSS", new StaticFileHttpHandler(config.getCSSDirectory(), "/CSS"));
+		server.createContext("/JS", new StaticFileHttpHandler(config.getJSDirectory(),"/JS"));
 		server.createContext("/favicon.ico",new RedirectHttpHandler("/gallery/WebSiteIcon.ico"));
 		server.createContext("/",new RedirectHttpHandler("/index.html"));
-		
-		server.setExecutor(padrao.getThreadPoolExecutor());
+
+		server.setExecutor(config.getThreadPoolExecutor());
 		server.start();
 		logger.log("Started server!");
 	}
