@@ -23,7 +23,7 @@ public class URIBuilder implements Builder<URI,Map<String,String>> {
 		Map<String,String> result=FunctionUtils.combinedMap(required, defaults, dymanicArgument);		
 		String uriAsString=template;
 		for(String key:result.keySet())
-			uriAsString=uriAsString.replaceAll(key, result.get(key));
+			uriAsString=uriAsString.replaceAll(key, FunctionUtils.encodeURIComponent(result.get(key)));
 		URI ans;
 		try {
 			ans = new URI(uriAsString);
