@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -31,6 +32,7 @@ public class ServerConfiguration {
 	
 	public ServerConfiguration() {
 		uiAdapter=new UserInterfaceWebServerAdapter(new ConsoleUserInterface());
+		APIKeys=new HashMap<String,String>();
 //		defaultAddress=null;
 //		defaultThreadPoolExecutor=null;
 //		defaultImagesPath=null;
