@@ -11,6 +11,7 @@ import com.sun.net.httpserver.HttpServer;
 
 public class Main {
 	public static final SimpleLogger logger = new SimpleLogger(System.out);	
+	public static ServerConfiguration globalConfiguration;
 	
 	public static void main(String[] args) throws IOException {
 		ServerConfiguration config;
@@ -18,6 +19,7 @@ public class Main {
 			config= new ServerConfiguration();
 		else 
 			config= new ServerConfiguration(new File(args[0]).toPath());
+		globalConfiguration=config;
 		FreeMarkerDataCombiner.setDirectoryForTemplateLoading(config.getHTMLDirectory());
 		
 		InetSocketAddress sockAddr=config.getAddress();
