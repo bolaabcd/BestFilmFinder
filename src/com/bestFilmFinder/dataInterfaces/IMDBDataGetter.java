@@ -1,6 +1,5 @@
 package com.bestFilmFinder.dataInterfaces;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -10,25 +9,30 @@ import com.bestFilmFinder.builders.HeaderBuilder;
 import com.bestFilmFinder.builders.HttpRequestMethod;
 import com.bestFilmFinder.builders.URIBuilder;
 
-public class MovieListImdbAPIDataGetter extends WebAPIDataGetter {
-
+public class IMDBDataGetter extends WebAPIDataGetter {
+	private final String templateURI;
+	private final String[] requiredValues;
+	private final Map<String,String> defaultValues;
+	
+	public IMDBDataGetter(String templateURI,String[] requiredValues, Map<String,String> defaultValues) {
+		this.templateURI=templateURI;
+		this.requiredValues=requiredValues;
+		this.defaultValues=defaultValues;
+	}
+	
 	@Override
 	public JSONObject getData(JSONObject filter) {
 		return super.getData(filter);
 	}
 	
 	@Override
+	protected URIBuilder getURIBuilder() {
+		return new URIBuilder(templateURI, requiredValues , defaultValues);
+		}
+	
+	@Override
 	protected BodyBuilder getBodyBuilder() {
 		return new BodyBuilder(null,null);
-	}
-
-	@Override
-	protected URIBuilder getURIBuilder() {
-		Map<String,String> defaultMap=new HashMap<String,String>();
-		defaultMap.put("language", "en");
-		String[] required=new String[] {"APIKey","MovieName"};
-		String template="https://imdb-api.com/language/API/SearchMovie/APIKey/MovieName";
-		return new URIBuilder(template, required , defaultMap);
 	}
 
 	@Override
